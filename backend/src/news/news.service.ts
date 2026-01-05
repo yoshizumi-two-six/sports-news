@@ -17,7 +17,6 @@ interface NewsFeed {
 
 @Injectable()
 export class NewsService {
-  // implements OnModuleInit を削除
   private readonly logger = new Logger(NewsService.name);
 
   private readonly parser: Parser<NewsFeed, NewsItem> = new Parser<
@@ -27,10 +26,7 @@ export class NewsService {
 
   private readonly RSS_URL = 'https://news.yahoo.co.jp/rss/topics/sports.xml';
 
-  // onModuleInit() メソッドごと削除
-
   async fetchNews() {
-    // ログは少し控えめにしておきましょう
     this.logger.log('Yahoo!ニュースを取得します...');
     try {
       const feed = await this.parser.parseURL(this.RSS_URL);
