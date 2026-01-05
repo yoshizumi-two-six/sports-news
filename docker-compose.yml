@@ -1,0 +1,36 @@
+# docker-compose.yml
+
+services:
+  # バックエンド (NestJS)
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    # ↓ DBへの接続情報を環境変数として渡す
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/sportsnews?schema=public
+    depends_on:
+      - db
+
+  # ▼▼▼ ここから追加・修正 ▼▼▼
+  
+  # データベース (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=sportsnews
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # ▲▲▲ ここまで追加 ▲▲▲
+
+# データの永続化設定
+volumes:
+  postgres_data:
