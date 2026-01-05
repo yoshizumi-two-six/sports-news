@@ -1,0 +1,20 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"  // ここを修正！
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id        Int      @id @default(autoincrement())
+  title     String
+  link      String   @unique
+  content   String?
+  summary   String?
+  pubDate   DateTime
+  createdAt DateTime @default(now())
+}
